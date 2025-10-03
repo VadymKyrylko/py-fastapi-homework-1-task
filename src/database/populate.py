@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import SQLAlchemyError
 from tqdm.asyncio import tqdm
 
-from config.settings import get_settings
+from config import get_settings
 from database import MovieModel, get_db_contextmanager, init_db
 
 
