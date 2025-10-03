@@ -3,10 +3,10 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql.functions import func
 
-from src.database.models import MovieModel
-from src.database.session import get_db
+from database.models import MovieModel
+from database.session import get_db
 from sqlalchemy import select
-from src.schemas.movies import MovieDetailResponseSchema, MovieListResponseSchema
+from schemas.movies import MovieDetailResponseSchema, MovieListResponseSchema
 
 router = APIRouter()
 

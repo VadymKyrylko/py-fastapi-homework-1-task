@@ -1,8 +1,8 @@
-from src.database.models import (
+from database.models import (
     Base,
     MovieModel
 )
-from src.database.session import (
+from database.session import (
     init_db,
     close_db,
     get_db_contextmanager,
