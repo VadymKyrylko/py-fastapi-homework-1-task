@@ -16,7 +16,7 @@ async def get_movies(
         request: Request,
         db: AsyncSession = Depends(get_db),
         page: int = Query(1, ge=1),
-        per_page: int = Query(10, ge=1, le=100),
+        per_page: int = Query(10, ge=1, le=20),
 ):
     total_items = (await db.execute(select(func.count()).select_from(MovieModel))).scalar()
     total_pages = math.ceil(total_items / per_page) if total_items else 1
@@ -24,16 +24,17 @@ async def get_movies(
         raise HTTPException(status_code=404, detail="No movies found.")
     res = await db.execute(select(MovieModel).offset((page - 1) * per_page).limit(per_page))
     movies = res.scalars().all()
-    if not movies:
+    total_items = (res.scalar() or 0)
+    if total_items == 0:
         raise HTTPException(status_code=404, detail="No movies found.")
     base_url = str(request.url).split("?")[0]
     prev_page = None
     next_page = None
 
     if page > 1:
-        prev_page = base_url + "?page={}".format(page - 1) + "&page_size={}".format(per_page)
+        prev_page = base_url + "?page={}".format(page - 1) + "&per_page={}".format(per_page)
     if page < total_pages:
-        next_page = base_url + "?page={}".format(page + 1) + "&page_size={}".format(per_page)
+        next_page = base_url + "?page={}".format(page + 1) + "&per_page={}".format(per_page)
 
     return MovieListResponseSchema(
         movies=movies,

@@ -15,8 +15,8 @@ class MovieDetailResponseSchema(BaseModel):
     orig_title: str
     status: str
     orig_lang: str
-    budget: float
-    revenue: float
+    budget: int
+    revenue: int
     country: str
 
     model_config = ConfigDict(from_attributes=True)
